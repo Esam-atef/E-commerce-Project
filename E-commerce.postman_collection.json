@@ -1,0 +1,444 @@
+{
+	"info": {
+		"_postman_id": "cf4a5822-69bc-46c7-9bef-d1810e3a2c62",
+		"name": "E-commerce",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38041203"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"mohamed\",\r\n    \"phone\":\"01029909877\",\r\n    \"password\":\"147\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:5060/api/users/register",
+							"host": [
+								"localhost"
+							],
+							"port": "5060",
+							"path": [
+								"api",
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\": \"password123\",\r\n    \"PhoneNumber\": \"01029909811\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:5060/api/users/login",
+							"host": [
+								"localhost"
+							],
+							"port": "5060",
+							"path": [
+								"api",
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "CartConsumer",
+			"item": [
+				{
+					"name": "Add Product to Cart",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var template = `\r",
+									"<canvas id=\"errorChart\" height=\"75\"></canvas>\r",
+									"\r",
+									"<script src=\"https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js\"></script> \r",
+									"\r",
+									"<script>\r",
+									"    var ctx = document.getElementById(\"errorChart\");\r",
+									"\r",
+									"    var errorChart = new Chart(ctx, {\r",
+									"        type: \"bar\",\r",
+									"        data: {\r",
+									"            labels: [\"Message\", \"Error\"],\r",
+									"            datasets: [{\r",
+									"                data: [{{response.message}}, {{response.error}}],\r",
+									"                \r",
+									"                // Change these colours to customize the chart\r",
+									"                backgroundColor: [\"#003f5c\", \"#58508d\"],\r",
+									"            }]\r",
+									"        },\r",
+									"        options: {\r",
+									"            legend: { display: false },\r",
+									"            title: {\r",
+									"                display: true,\r",
+									"                text: 'Error Data'\r",
+									"            },\r",
+									"            scales: {\r",
+									"                xAxes: [{\r",
+									"                    display: true,\r",
+									"                    scaleLabel: {\r",
+									"                        display: true,\r",
+									"                        labelString: 'Type'\r",
+									"                    }\r",
+									"                }],\r",
+									"                yAxes: [{\r",
+									"                    display: true,\r",
+									"                    scaleLabel: {\r",
+									"                        display: true,\r",
+									"                        labelString: 'Count'\r",
+									"                    }\r",
+									"                }]\r",
+									"            }\r",
+									"        }\r",
+									"\r",
+									"    });\r",
+									"\r",
+									"    // Access the data passed to pm.visualizer.set() from the JavaScript\r",
+									"    // code of the Visualizer template\r",
+									"    pm.getData(function (err, value) {\r",
+									"        errorChart.data.datasets[0].data = [value.response.message, value.response.error];\r",
+									"        errorChart.update();\r",
+									"    });\r",
+									"\r",
+									"</script>`;\r",
+									"\r",
+									"function constructVisualizerPayload() {\r",
+									"    var res = pm.response.json();\r",
+									"    \r",
+									"    var visualizerData = {\r",
+									"        \r",
+									"        // Labels take an array of strings\r",
+									"        message: res.message,\r",
+									"        \r",
+									"        // Data takes an array of numbers\r",
+									"        error: res.error\r",
+									"    };\r",
+									"\r",
+									"    return {response: visualizerData};\r",
+									"}\r",
+									"\r",
+									"pm.visualizer.set(template, constructVisualizerPayload());"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ODhmYjdmOGE4OGU0OTM5MTBlYTY1OCIsImlhdCI6MTczNzEyMDQyMCwiZXhwIjoxNzM3MTI0MDIwfQ.eg_ggPywsSeh49nD1K9rkUt7f8Q11IT2gBvyjBJo1f4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"items\": \r\n    [\r\n        { \"productId\": \"6787c6da70f381c1a4dd39cf\", \"quantity\": 2 },\r\n        { \"productId\": \"6788edbbfc0b224823c1ca9a\", \"quantity\": 1 }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:5060/api/cart/6788fa74a55a0e25b24037f4/add",
+							"host": [
+								"localhost"
+							],
+							"port": "5060",
+							"path": [
+								"api",
+								"cart",
+								"6788fa74a55a0e25b24037f4",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetCart",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ODhmYjdmOGE4OGU0OTM5MTBlYTY1OCIsImlhdCI6MTczNzEyMDQyMCwiZXhwIjoxNzM3MTI0MDIwfQ.eg_ggPywsSeh49nD1K9rkUt7f8Q11IT2gBvyjBJo1f4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:5060/api/cart/6788fa74a55a0e25b24037f4",
+							"host": [
+								"localhost"
+							],
+							"port": "5060",
+							"path": [
+								"api",
+								"cart",
+								"6788fa74a55a0e25b24037f4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteProductFromCart",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ODhmYjdmOGE4OGU0OTM5MTBlYTY1OCIsImlhdCI6MTczNzEyMDQyMCwiZXhwIjoxNzM3MTI0MDIwfQ.eg_ggPywsSeh49nD1K9rkUt7f8Q11IT2gBvyjBJo1f4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \r\n    \"productId\": \"6787c6da70f381c1a4dd39cf\" \r\n    \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:5060/api/cart/6788fb7f8a88e493910ea658/delete",
+							"host": [
+								"localhost"
+							],
+							"port": "5060",
+							"path": [
+								"api",
+								"cart",
+								"6788fb7f8a88e493910ea658",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "FavoriteProduct",
+			"item": [
+				{
+					"name": "addToFavorite",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ODhmYjdmOGE4OGU0OTM5MTBlYTY1OCIsImlhdCI6MTczNzY3NjQyOCwiZXhwIjoxNzM3NjgwMDI4fQ.iobxb5Ts2knJxivIRoQ_gLWJEP7MlUBBpJMO8dOlRDI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:5060/api/favoriteCart/add/6788fb7f8a88e493910ea658/6787c6da70f381c1a4dd39cf",
+							"host": [
+								"localhost"
+							],
+							"port": "5060",
+							"path": [
+								"api",
+								"favoriteCart",
+								"add",
+								"6788fb7f8a88e493910ea658",
+								"6787c6da70f381c1a4dd39cf"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetFavorite",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ODhmYjdmOGE4OGU0OTM5MTBlYTY1OCIsImlhdCI6MTczNzY3NjQyOCwiZXhwIjoxNzM3NjgwMDI4fQ.iobxb5Ts2knJxivIRoQ_gLWJEP7MlUBBpJMO8dOlRDI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:5060/api/favoriteCart/6788fb7f8a88e493910ea658",
+							"host": [
+								"localhost"
+							],
+							"port": "5060",
+							"path": [
+								"api",
+								"favoriteCart",
+								"6788fb7f8a88e493910ea658"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteFavorite",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ODhmYjdmOGE4OGU0OTM5MTBlYTY1OCIsImlhdCI6MTczNzY3NjQyOCwiZXhwIjoxNzM3NjgwMDI4fQ.iobxb5Ts2knJxivIRoQ_gLWJEP7MlUBBpJMO8dOlRDI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:5060/api/favoriteCart/delete/6788fb7f8a88e493910ea658/6787c6da70f381c1a4dd39cf",
+							"host": [
+								"localhost"
+							],
+							"port": "5060",
+							"path": [
+								"api",
+								"favoriteCart",
+								"delete",
+								"6788fb7f8a88e493910ea658",
+								"6787c6da70f381c1a4dd39cf"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Orders",
+			"item": [
+				{
+					"name": "CreateOrder",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:5060/api/order/6788fa74a55a0e25b24037f4/create",
+							"host": [
+								"localhost"
+							],
+							"port": "5060",
+							"path": [
+								"api",
+								"order",
+								"6788fa74a55a0e25b24037f4",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllOrders",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:5060/api/order/6788fa74a55a0e25b24037f4",
+							"host": [
+								"localhost"
+							],
+							"port": "5060",
+							"path": [
+								"api",
+								"order",
+								"6788fa74a55a0e25b24037f4"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "New Request",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:5060/api/admin/orders",
+					"host": [
+						"localhost"
+					],
+					"port": "5060",
+					"path": [
+						"api",
+						"admin",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
